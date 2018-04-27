@@ -229,6 +229,12 @@ module.exports = function(grunt) {
           if (error) {
             grunt.log.error(String(result));
             if ((code === 1 || code === 100) && keepAlive) {
+              try{
+                var filename=path.normalize([coverageDir,'/'+'error.txt'].join(''));
+                fs.writeFileSync(filename, code);
+              }catch(e){
+                grunt.log.error("Got error: " + e.message);
+              }
               // Test fails but do not want to stop the grunt process.
               grunt.log.oklns("Test failed but keep the grunt process alive.");
             } else {
